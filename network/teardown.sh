@@ -21,5 +21,6 @@ docker rmi $(docker images dev-* -q)
 rm -rf config
 rm -rf crypto-config
 mkdir config
+rm -rf ../application/wallet
 
 # Your system is now clean
