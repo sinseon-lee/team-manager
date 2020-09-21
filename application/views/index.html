@@ -37,19 +37,30 @@
             </div>
         </div>
 
+        <!--
         <div class="row justify-content-md-center">
             <div class="col-lg">
                 <h3>Search Member</h3>
                 <input type="text" id="search-member-name" name="name" placeholder="Enter the member's name to search"> <br>
                 <button class="btn btn-primary" id="search-btn">Search</button>
-
                 <table class="table">
-                    <tbody id="table">
+                    <tbody id="search-table">
                     </tbody>
                 </table>
             </div>
         </div>
+        -->
 
+        <div class="row justify-content-md-center">
+            <div class="col-lg">
+                <h3>Search All Members</h3>
+                <button class="btn btn-primary" id="search-all-btn">Search All</button>
+                <table class="table">
+                    <tbody id="search-all-table">
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </body>
 
@@ -71,6 +82,7 @@
         })
     })
 
+    /*
     $("#search-btn").click(() => {
         const name = $("#search-member-name").val();
         const url = "/search"
@@ -80,12 +92,31 @@
                 const test = JSON.stringify(data)
                 const parsedData = JSON.parse(test)
                 
-                $('#table').empty();
-                $('#table').append("<tr><th scope='row'>name</th><td>" + parsedData.name + "</td></tr>")
-                $('#table').append("<tr><th scope='row'>id</th><td>" + parsedData.id + "</td></tr>")
+                $('#search-table').empty()
+                $('#search-table').append("<tr><th scope='row'>name</th><td>" + parsedData.name + "</td></tr>")
+                $('#search-table').append("<tr><th scope='row'>id</th><td>" + parsedData.id + "</td></tr>")
             }
         })
     })    
+    */
+
+    $("#search-all-btn").click(() => {
+        const url = "/searchAll"
+
+        $.post(url, (data,status) => {
+            if (status != null) {
+
+                $('#search-all-table').empty()
+                for (var i = 0; i < data.length; i++) {
+                    const datum = data[i]
+                    const test = JSON.stringify(datum)
+                    const parsedData = JSON.parse(test)
+                    
+                    $('#search-all-table').append("<tr><td>" + parsedData.Record.name + "(" + parsedData.Record.id + ")" + "</td></tr>")
+                }
+            }
+        })
+    })
 </script>
 
 <!-- styling -->

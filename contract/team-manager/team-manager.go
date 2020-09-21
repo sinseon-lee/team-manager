@@ -1,9 +1,9 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
-	//"strconv"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 	sc "github.com/hyperledger/fabric/protos/peer"
@@ -36,6 +36,9 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 	} else if function == "readMember" {
 
 		return s.readMember(APIstub, args)
+	} else if function == "readAllMembers" {
+
+		return s.readAllMembers(APIstub)
 	}
 
 	return shim.Error("Invalid Smart Contract function name.")
@@ -79,8 +82,9 @@ func (s *SmartContract) readMember(APIstub shim.ChaincodeStubInterface, args []s
 }
 
 func (s *SmartContract) readAllMembers(APIstub shim.ChaincodeStubInterface) sc.Response {
-	startKey := "A"
-	endKey := "zzzzzzzzzz"
+
+	startKey := " "
+	endKey := "~"
 
 	resultsIterator, err := APIstub.GetStateByRange(startKey, endKey)
 	if err != nil {
@@ -112,14 +116,12 @@ func (s *SmartContract) readAllMembers(APIstub shim.ChaincodeStubInterface) sc.R
 		buffer.WriteString(string(queryResponse.Value))
 		buffer.WriteString("}")
 		bArrayMemberAlreadyWritten = true
-
-		fmt.Printf("- queryAllCars:\n%s\n", buffer.String())
-
-		return shim.Success(buffer.Bytes())
 	}
 	buffer.WriteString("]")
 
+	fmt.Printf("- readAllMembers:\n%s\n", buffer.String())
 
+	return shim.Success(buffer.Bytes())
 }
 
 func main() {

@@ -49,13 +49,14 @@ async function cc_call(fn_name, args){
         name = args[0];
         id = args[1];
         result = await contract.submitTransaction('addMember', name, id);
-    } else if( fn_name == 'removeMember') {
+    } else if ( fn_name == 'removeMember') {
         name = args[0];
         result = await contract.submitTransaction('removeMember', name);
-    } else if(fn_name == 'readMember') {
+    } else if (fn_name == 'readMember') {
         name = args[0];
-        console.log("readMember in cc_call with " + name)
         result = await contract.evaluateTransaction('readMember', name);
+    } else if ( fn_name == 'readAllMembers' ) {
+        result = await contract.evaluateTransaction('readAllMembers');
     } else
         result = 'not supported function'
     
@@ -68,7 +69,7 @@ app.post('/add', async(req, res) => {
     const id = req.body.id;
 
     console.log(" ")
-    console.log("* add member: ");
+    console.log("* add member");
     console.log("- name : " + name)
     console.log("- id : " + id)
 
@@ -83,7 +84,7 @@ app.post('/remove', async(req, res) => {
     const name = req.body.name;
 
     console.log(" ")
-    console.log("* remove member: ")
+    console.log("* remove member")
     console.log("- name : " + name)
 
     var args = [name];
@@ -97,7 +98,7 @@ app.post('/search', async(req, res) => {
     const name = req.body.name;
 
     console.log(" ")
-    console.log("* search member: ")
+    console.log("* search member")
     console.log("- name : " + name)
 
     var args = [name];
@@ -110,6 +111,17 @@ app.post('/search', async(req, res) => {
 
     const myobj = JSON.parse(result)
     console.log("result: " + result)
+    res.status(200).json(myobj)
+})
+
+// search all members
+app.post('/searchAll', async(req, res) => {
+    console.log(" ")
+    console.log("* search all members")
+
+    const result = await cc_call('readAllMembers')
+    console.log("result: " + result)
+    const myobj = JSON.parse(result)
     res.status(200).json(myobj)
 })
 
