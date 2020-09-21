@@ -78,6 +78,50 @@ func (s *SmartContract) readMember(APIstub shim.ChaincodeStubInterface, args []s
 	return shim.Success(UserAsBytes)
 }
 
+func (s *SmartContract) readAllMembers(APIstub shim.ChaincodeStubInterface) sc.Response {
+	startKey := "A"
+	endKey := "zzzzzzzzzz"
+
+	resultsIterator, err := APIstub.GetStateByRange(startKey, endKey)
+	if err != nil {
+		return shim.Error(err.Error())
+	}
+	defer resultsIterator.Close()
+
+	// buffer is a JSON array containing QueryResults
+	var buffer bytes.Buffer
+	buffer.WriteString("[")
+
+	bArrayMemberAlreadyWritten := false
+	for resultsIterator.HasNext() {
+		queryResponse, err := resultsIterator.Next()
+		if err != nil {
+			return shim.Error(err.Error())
+		}
+		// Add a comma before array members, suppress it for the first array member
+		if bArrayMemberAlreadyWritten == true {
+			buffer.WriteString(",")
+		}
+		buffer.WriteString("{\"Key\":")
+		buffer.WriteString("\"")
+		buffer.WriteString(queryResponse.Key)
+		buffer.WriteString("\"")
+
+		buffer.WriteString(", \"Record\":")
+		// Record is a JSON object, so we write as-is
+		buffer.WriteString(string(queryResponse.Value))
+		buffer.WriteString("}")
+		bArrayMemberAlreadyWritten = true
+
+		fmt.Printf("- queryAllCars:\n%s\n", buffer.String())
+
+		return shim.Success(buffer.Bytes())
+	}
+	buffer.WriteString("]")
+
+
+}
+
 func main() {
 
 	// Create a new Smart Contract

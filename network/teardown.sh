@@ -22,5 +22,6 @@ rm -rf config
 rm -rf crypto-config
 mkdir config
 rm -rf ../application/wallet
+rm -rf ../application/node_modules
 
 # Your system is now clean
