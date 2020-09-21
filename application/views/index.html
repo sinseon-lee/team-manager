@@ -18,14 +18,16 @@
 
 <body>
     <div class="container">
+        <i class="fas fa-users" style="font-size: 180px; color:black"></i>
         <h1> Team Manager </h1>
         <hr>
+
         <div class="row justify-content-md-center">
             <div class="col-lg">
                 <h3> Add New Member </h3>
                 <input type="text" id="new-member-name" name="name" placeholder="Enter new member's name"> <br>
                 <input type="text" id="new-member-id" name="id" placeholder="Enter new member's id"> <br>
-                <button class="btn btn-primary" id="add-btn">Add</button> <br>
+                <button class="btn btn-success" id="add-btn">Add</button> <br>
             </div>
         </div>
 
@@ -33,7 +35,7 @@
             <div class="col-lg">
                 <h3> Remove Member </h3>
                 <input type="text" id="remove-member-name" name="name" placeholder="Enter the member's name to remove"> <br>
-                <button class="btn btn-warning" id="remove-btn">Remove</button> <br>
+                <button class="btn btn-danger" id="remove-btn">Remove</button> <br>
             </div>
         </div>
 
@@ -54,7 +56,7 @@
         <div class="row justify-content-md-center">
             <div class="col-lg">
                 <h3>Search All Members</h3>
-                <button class="btn btn-primary" id="search-all-btn">Search All</button>
+                <button class="btn btn-secondary" id="search-all-btn">Search All</button>
                 <table class="table">
                     <tbody id="search-all-table">
                     </tbody>
@@ -125,7 +127,6 @@
         width: 100%;
         height: 500px;
         margin: 50px 50px;
-        padding: 20px 20px;
         text-align: center;
         position: absolute;
         left: 50%;
