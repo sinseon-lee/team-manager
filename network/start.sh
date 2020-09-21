@@ -7,9 +7,8 @@
 # Exit on first error, print all commands.
 set -ev
 
-# docker-compose-template.yml 파일은 docker-compose.yml파일에서 ca의 private key만 비워있는 파일
-# 새로 생성한 private key로 자동으로 docker-compose.yml을 수정해줌
 function replacePrivateKey() {
+    # replace CA_PRIVATE_KEY to the new published private key in docker-compose.yml
     echo "ca key file exchange"
     cp docker-compose-template.yml docker-compose.yml
     PRIV_KEY=$(ls crypto-config/peerOrganizations/org1.example.com/ca/ | grep _sk)
@@ -47,12 +46,8 @@ export FABRIC_START_TIMEOUT=10
 sleep ${FABRIC_START_TIMEOUT}
 
 # Create the channel
-# 원래 있던 것
-#docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org1.example.com/msp" peer0.org1.example.com peer channel create -o orderer.example.com:7050 -c mychannel -f /etc/hyperledger/configtx/channel.tx
 docker exec cli peer channel create -o orderer.example.com:7050 -c mychannel -f /etc/hyperledger/configtx/channel.tx
 # Join peer0.org1.example.com to the channel.
-# 원래 있던 것
-#docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org1.example.com/msp" peer0.org1.example.com peer channel join -b mychannel.block
 docker exec -e "CORE_PEER_LOCALMSPID=Org1MSP" -e "CORE_PEER_MSPCONFIGPATH=/etc/hyperledger/msp/users/Admin@org1.example.com/msp" peer0.org1.example.com peer channel join -b /etc/hyperledger/configtx/mychannel.block
 sleep 5
 # Join peer0.org2.example.com to the channel.
