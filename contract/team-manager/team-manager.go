@@ -33,9 +33,6 @@ func (s *SmartContract) Invoke(APIstub shim.ChaincodeStubInterface) sc.Response 
 	} else if function == "removeMember" {
 
 		return s.removeMember(APIstub, args)
-	} else if function == "readMember" {
-
-		return s.readMember(APIstub, args)
 	} else if function == "readAllMembers" {
 
 		return s.readAllMembers(APIstub)
@@ -69,16 +66,6 @@ func (s *SmartContract) removeMember(APIstub shim.ChaincodeStubInterface, args [
 	}
 
 	return shim.Success(nil)
-}
-
-func (s *SmartContract) readMember(APIstub shim.ChaincodeStubInterface, args []string) sc.Response {
-
-	if len(args) != 1 {
-		return shim.Error("Incorrect number of arguments. Expecting 1")
-	}
-
-	UserAsBytes, _ := APIstub.GetState(args[0])
-	return shim.Success(UserAsBytes)
 }
 
 func (s *SmartContract) readAllMembers(APIstub shim.ChaincodeStubInterface) sc.Response {

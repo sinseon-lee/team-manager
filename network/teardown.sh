@@ -20,7 +20,6 @@ docker rmi $(docker images dev-* -q)
 # remove config and crypto-config directories, and make new config dirctory
 rm -rf config
 rm -rf crypto-config
-mkdir config
 rm -rf ../application/wallet
 rm -rf ../application/node_modules
 
