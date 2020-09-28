@@ -57,7 +57,7 @@ cd network
 ./cc.sh instantiate v1.0
 ```
 
-To test the chaincode, enter these example commands below.
+To test the chaincode, enter following example commands.
 ```
 # test addMember
 docker exec cli peer chaincode invoke -n team-manager -C mychannel -c '{"Args":["addMember","Sinseon", "1"]}'
